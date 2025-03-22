@@ -1,0 +1,7 @@
+nikto -h 192.168.1.100 -p 80,8080,8000,9020
+-Plugin apacheuser
+-Tuning 0(File Upload) || 2(Misconfigurations / Default Files) || 3 (Information Disclosure) ||
+ 4(Injection) || 8 (Command Execution) || 9(SQL Injection) 
+
+ let's scan a web server and output this to "report.html": nikto -h http://ip_address -o report.html
+

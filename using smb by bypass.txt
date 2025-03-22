@@ -1,0 +1,4 @@
+smbmap -H 10.10.2.27 //for mapping smb pathes
+
+smbclient -L //10.10.2.27   //see opened folders
+smbclient //10.10.2.27/BillySMB //connect by service

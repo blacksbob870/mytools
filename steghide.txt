@@ -1,0 +1,2 @@
+steghide extract -sf binarycodepixabay.jpg
+cat madefile.txtcat

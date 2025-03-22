@@ -1,0 +1,10 @@
+wpscan –-url http://cmnatics.playground –-passwords rockyou.txt –-usernames cmnatic //for password
+wpscan --url http://cmnatics.playground/ --enumerate p //for find password
+wpscan --url http://cmnatics.playground/ --enumerate t //for Themes
+wpscan --url http://cmnatics.playground/ --enumerate u //for finding username 
+wpscan --url httl://ip.cpm -e u,p    //find username and password
+wpscan -U users.txt -P rockyou.txt --url http://blog.thm
+
+
+
+

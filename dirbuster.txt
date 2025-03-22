@@ -1,0 +1,13 @@
+mode: dir
+dirbuster dir -u http://10.10.10.10 -w /usr/share/wordlists/list.txt
+dirbuster dir -u http://10.10.10.10 -w /usr/share/wordlist.txt -x.html,.css,.js
+"vhost" rejimidir. Bu Gobuster-ga virtual xostlarni qo'pol kuch ishlatish imkonini beradi. Virtual xostlar bir xil mashinadagi turli veb-saytlardir. 
+Ba'zi hollarda ular pastki domenlarga o'xshab ko'rinishi mumkin, ammo aldanmang! Virtual xostlar IP-ga asoslangan va bir xil serverda ishlaydi. 
+Bu odatda oxirgi foydalanuvchiga ko'rinmaydi.
+
+
+feroxbuster --url http://webunum.thm
+gobuster vhost -u http://webenum.thm -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-5000.txt 
+
+
+

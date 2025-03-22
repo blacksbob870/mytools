@@ -1,0 +1,21 @@
+SiteName:RepublicofKoffee.com
+
+whois qidiruvi:
+#mavjud domen nomi bo'yicha qidirish:
+https://www.namecheap.com/domains/whois/
+
+
+#sayt haqida tarixiy malumotlarni topish:
+Archive.org
+
+#texnik tavfsilotlari haqida malumot yig'ish:
+ViewDNS.info
+
+Ushbu ma'lumotlardan foydalanib, veb-sayt umumiy yoki ajratilgan 
+IP-manzilda joylashtirilganmi yoki yo'qmi, aniq ko'rsatilmagan 
+ma'lum xulosalar chiqarish mumkin.
+Bu savolga javob veb-sayt byudjeti va 
+trafik haqida ma'lumot berishi mumkin.
+funk: IP history, IP location finder, Reverse IP Lookup, Reverse Whois Lookup
+
+#misol:https://viewdns.info/iphistory/?domain=heat.net web site egasi haqida malumot topish mumkin
