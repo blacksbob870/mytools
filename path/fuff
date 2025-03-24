@@ -1,0 +1,64 @@
+⚡ FFUF asosiy buyruqlar va misollar
+ffuf — bu juda tezkor va yengil fuzzer bo‘lib, asosan directory busting, subdomain enumeration, parameter fuzzing va boshqa sohalarda ishlatiladi.
+
+**🟢 1️⃣ Oddiy directory**
+
+ffuf -u http://target.com/FUZZ -w /path/to/wordlist.txt
+FUZZ so‘zini har doim qayerga fuzz qilmoqchi bo‘lsangiz shu joyga qo‘ying.
+
+**🟢 2️⃣ File extensions (masalan: .php, .txt, .bak)**
+ffuf -u http://target.com/FUZZ -w /path/to/wordlist.txt -e .php,.html,.bak
+**🟢 3️⃣ Subdomain fuzzing**
+ffuf -u http://FUZZ.target.com -w /path/to/wordlist.txt -H "Host: FUZZ.target.com"
+
+**🟢 4️⃣ Virtual host fuzzing**
+ffuf -u http://target.com -H "Host: FUZZ.target.com" -w /path/to/wordlist.txt
+
+**🟢 5️⃣ GET parameter fuzzing**
+ffuf -u http://target.com/page.php?param=FUZZ -w /path/to/wordlist.txt
+
+**🟢 6️⃣ POST data fuzzing**
+ffuf -u http://target.com/login -X POST -d "username=FUZZ&password=123456" -w /path/to/wordlist.txt
+
+**🟢 7️⃣ Header fuzzing**
+ffuf -u http://target.com -H "X-Api-Key: FUZZ" -w /path/to/wordlist.txt
+
+**🟢 8️⃣ Cookie fuzzing**
+ffuf -u http://target.com -b "SESSIONID=FUZZ" -w /path/to/wordlist.txt
+
+**🟢 9️⃣ Multiple FUZZ (double FUZZ)**
+ffuf -u http://target.com/FUZZ/FUZZ2 -w /path/to/wordlist1.txt:FUZZ -w /path/to/wordlist2.txt:FUZZ2
+
+**🟢 🔟 Filtering options (javoblarni filter qilish)**
+Status kod bo‘yicha filter:
+ffuf -u http://target.com/FUZZ -w /path/to/wordlist.txt -fc 404
+Response size bo‘yicha filter:
+ffuf -u http://target.com/FUZZ -w /path/to/wordlist.txt -fs 4242
+Response word count bo‘yicha filter:
+ffuf -u http://target.com/FUZZ -w /path/to/wordlist.txt -fw 100
+
+**🟢 11️⃣ Recursion (katalog ichida yana davom ettirish)**
+ffuf -u http://target.com/FUZZ -w /path/to/wordlist.txt -recursion
+
+**🟢 12️⃣ Speed limit va thread boshqarish**
+ffuf -u http://target.com/FUZZ -w /path/to/wordlist.txt -t 50 --rate 100 
+-t 50: 50 ta thread
+--rate 100: maksimal 100 ta so‘rov/soniyada
+
+**🟢 13️⃣ Output JSON, HTML yoki CSV formatda**
+ffuf -u http://target.com/FUZZ -w /path/to/wordlist.txt -o result.json 
+-of json
+-of html
+-of csv
+
+**🟢 14️⃣ Burp Suite bilan ishlatish (proxy orqali)**
+ffuf -u http://target.com/FUZZ -w /path/to/wordlist.txt -x http://127.0.0.1:8080
+
+**🟢 15️⃣ Authorization Header bilan**
+ffuf -u http://target.com/FUZZ -w /path/to/wordlist.txt -H "Authorization: Bearer <token>"
+
+**🟢 16️⃣ Delay qo‘yish (WAF bypass uchun)**
+ffuf -u http://target.com/FUZZ -w /path/to/wordlist.txt -p 0.5
+(0.5 soniya delay har bir so‘rov orasida)
+
+ffuf ga URL, GET/POST, cookie, header va boshqa joylarda FUZZ ni qo‘yib test qilishingiz mumkin.
