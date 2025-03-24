@@ -124,3 +124,7 @@ firewalk sizga firewall qanday portlarga ruxsat berayotganini ko‘rsatib beradi
 hping3 firewall’ni fragmentlash orqali ko‘p teshik topish imkonini beradi.
 
 firewalk esa ACL’larni aniqlashda va yo‘nalishlarni tahlil qilishda foydali.
+
+
+
+nmap -sCV -A -p- -T5 -Pn -O -v 10.10.196.90  
