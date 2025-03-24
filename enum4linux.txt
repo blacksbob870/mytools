@@ -1,1 +1,26 @@
+**enum4linux**
 enum4linux -a 10.10.31.123
+-a : All, ya’ni maksimal ma’lumot yig‘adi (user, share, domain info, RID cycling, password policy va boshqalar).
+
+**🟢 2️⃣ Faqat user list olish**
+enum4linux -U <IP>
+
+**3️⃣ Sharelarni topish (SMB shares)**
+enum4linux -S <IP>
+
+**🟢 4️⃣ OS va domain ma’lumotlarini olish**
+enum4linux -i <IP>
+
+**🟢 5️⃣ Password policy aniqlash**
+enum4linux -P <IP>
+
+**🟢 7️⃣ Printer va service’larni olish**
+enum4linux -p <IP>
+
+**🟢 8️⃣ Group list olish**
+enum4linux -G <IP>
+
+**⚠️ Qo‘shimcha info:**
+enum4linux — SMB 445 va NetBIOS 139 portlariga mo‘ljallangan.
+
+Bu vosita ko‘pincha Windows file share, Active Directory, yoki SMB open shares topishda ishlatiladi.
