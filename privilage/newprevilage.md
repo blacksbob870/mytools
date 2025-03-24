@@ -18,3 +18,12 @@ Keling, muhit o'zgaruvchisini yaratamiz adminva uni quyidagicha o'rnatamiz 1
 
 
 https://www.aldeid.com/wiki/TryHackMe-Blog
+
+
+
+
+**$ SHELL=/bin/bash script -q /dev/null**
+
+
+
+
