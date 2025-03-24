@@ -9,5 +9,11 @@ Bu odatda oxirgi foydalanuvchiga ko'rinmaydi.
 feroxbuster --url http://webunum.thm
 gobuster vhost -u http://webenum.thm -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-5000.txt 
 
+*******with timeout******
+gobuster dir -u http://10.10.0.233/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 5 --delay 500ms
 
+-t 5 — 5 ta parallel so‘rov (default odatda 10 yoki 50 bo‘lishi mumkin, biz kamaytiryapmiz).
 
+--delay 500ms — har bir so‘rov orasida 500 millisekund (yarim soniya) kutish.
+
+Agar server juda qattiq cheklayotgan bo‘lsa, -t ni 3 yoki 1 ga ham tushurish mumkin va --delay ni oshirish mumkin masalan 1s (1 soniya):
