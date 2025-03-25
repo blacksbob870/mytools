@@ -139,3 +139,156 @@ docker network create secure_network --mac-address=02:42:ac:11:00:02
 ✅ **Tarmoq xavfsizligi:** Docker firewall va iptables bilan cheklash  
 
 🚀 **Siz aynan Docker xavfsizligining qaysi jihati bo‘yicha ko‘proq amaliyot qilmoqchisiz?** 😊
+
+
+
+Ajoyib savol! Endi **Docker tizimiga real hujum** amalga oshirilganda qanday qilib **hujumni aniqlash, tekshirish va oldini olish** mumkinligini **real misollar** bilan tushuntirib beraman.  
+
+---
+
+# **🔥 Scenario: Kimdir Docker tizimingizga hujum qilmoqda!**  
+
+## **🛑 1. Hujumni aniqlash**  
+Sizda Docker konteynerlari ishlayotgan server bor. **Falco** monitoring vositasi **shubhali harakatni sezdi** va ogohlantirish berdi:  
+
+📌 **Falco loglarida:**  
+```
+18:22:34.456 WARNING [Docker Security]: User "unknown_user" is trying to execute "sh" inside container "nginx"
+```
+💡 **Bu nimani anglatadi?**  
+Kimdir **nginx konteyneringiz ichida shell ochishga harakat qilmoqda!** Bu ehtimol hujumchining sistemaga kirishga urinishidir.  
+
+---
+
+## **🔍 2. Hujumni chuqur tekshirish**  
+
+Endi hujumchining qanday qilib tizimga kirganini bilish kerak.  
+
+### **✅ 2.1 Docker konteynerida kim ishlayotganini tekshirish**  
+Birinchi navbatda konteynerda **shubhali processlarni tekshiramiz**.  
+```bash
+docker ps
+```
+👉 Natija:  
+```
+CONTAINER ID   IMAGE     STATUS        NAMES
+6b1d1a2a3f12   nginx     Up 3 hours    web_server
+```
+Shubhali konteyner: **web_server (nginx)**  
+
+Endi shu konteyner ichida **kimlar ishlayotganini** tekshiramiz:  
+```bash
+docker exec -it 6b1d1a2a3f12 ps aux
+```
+👉 Natija:  
+```
+USER       PID  CMD
+root        1   nginx -g 'daemon off;'
+unknown     99  sh
+```
+🚨 **Shubhali holat!** **Kimdir konteyner ichida `sh` (shell) ishga tushirgan!**  
+
+---
+
+### **✅ 2.2 Hujumchi qanday kirganini tekshirish (Loglarni ko‘rish)**  
+Docker konteynerida qanday kirishlar bo‘lganini **loglardan** tekshiramiz.  
+
+```bash
+docker logs web_server
+```
+👉 Natija:  
+```
+192.168.1.15 - - [25/Mar/2025:18:10:12] "GET /?cmd=whoami HTTP/1.1" 200 -
+```
+🚨 **Kimdir "cmd" orqali buyruq yubormoqda!**  
+Bu **Remote Code Execution (RCE)** bo‘lishi mumkin!  
+
+---
+
+### **✅ 2.3 Hujumchi IP-manzilini aniqlash**  
+Docker konteyneri ichida hujumchining IP-manzilini tekshiramiz:  
+```bash
+docker exec -it web_server netstat -antp
+```
+👉 Natija:  
+```
+Proto Recv-Q Send-Q Local Address    Foreign Address  State
+tcp   0      0    172.17.0.2:80     192.168.1.15:4234  ESTABLISHED
+```
+💡 **Hujumchining IP manzili:** **192.168.1.15**  
+
+---
+
+## **🛡 3. Hujumni oldini olish (Immediate Response)**  
+
+🚀 **Endi biz hujumchini bloklashimiz kerak!**  
+
+### **✅ 3.1 Hujumchining IP-manzilini bloklash**  
+Hujumchining IP-manzilini **iptables** orqali bloklaymiz:  
+```bash
+iptables -A INPUT -s 192.168.1.15 -j DROP
+```
+👉 **Endi ushbu IP tizimga kira olmaydi.**  
+
+---
+
+### **✅ 3.2 Docker konteynerini shoshilinch o‘chirish**  
+```bash
+docker stop web_server
+docker rm web_server
+```
+🚀 **Shubhali konteynerni yo‘q qildik.**  
+
+---
+
+## **🔐 4. Hujumni oldini olish uchun uzoq muddatli choralar**  
+
+💡 Endi tizimni qayta himoyalash kerak. Buning uchun **Docker Hardening** va boshqa himoya usullaridan foydalanamiz.  
+
+### **✅ 4.1 Docker konteynerlarini root holda ishga tushirmaslik**  
+```bash
+docker run --user 1001 -d nginx
+```
+👉 **Root user’dan foydalanmaslik hujumni qiyinlashtiradi.**  
+
+---
+
+### **✅ 4.2 Konteynerga exec kirishni cheklash**  
+```bash
+{
+  "no-new-privileges": true
+}
+```
+🚀 **Bu orqali hujumchi konteyner ichida root huquqiga ega bo‘lolmaydi.**  
+
+---
+
+### **✅ 4.3 Docker loglarini SIEM ga yuborish (Splunk, ELK, Wazuh)**  
+```bash
+docker run --log-driver=syslog --log-opt syslog-address=udp://192.168.1.20:514 nginx
+```
+🚀 **Endi barcha loglar SIEM tizimiga tushadi va real-time monitoring bo‘ladi.**  
+
+---
+
+### **✅ 4.4 IDS/IPS bilan Docker tarmog‘ini himoyalash (Suricata, Snort)**  
+```bash
+suricata -c /etc/suricata/suricata.yaml -i docker0
+```
+👉 **Agar kimdir shubhali trafik jo‘natsa, IDS tizimi buni aniqlaydi.**  
+
+---
+
+## **🔴 Yakuniy Xulosa**  
+
+| **Harakat**  | **Qanday amalga oshirildi?**  |
+|--------------|------------------------------|
+| Hujumni aniqlash | **Falco va Docker logs** orqali |
+| Hujumchi IP-manzilini topish | **Netstat va Docker logs** orqali |
+| Hujumni to‘xtatish | **IP-manzilni iptables orqali bloklash** |
+| Shubhali konteynerni yo‘q qilish | **Docker stop & rm** orqali |
+| Himoyani kuchaytirish | **Root user’ni o‘chirib, IDS/IPS qo‘shish** |
+
+🚀 **Endi tizim mustahkamroq va hujumchilarga qarshi yaxshi himoyalangan!**  
+
+❓ Siz aynan qaysi qism bo‘yicha ko‘proq amaliyot qilmoqchisiz? 😊
