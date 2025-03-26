@@ -254,37 +254,44 @@ index=windows EventCode=4720 | stats count by user, _time
 
 ## **📡 7. Tarmoqda Shubhali Harakatlarni Kuzatish**  
 🔹 **DNS Tunneling yoki ma’lumot chiqarish hujumlarini aniqlash:**  
-```spl
+
 index=dns | stats count by query | where count > 1000
-```
+
 📌 **1 kunda 1000 dan ortiq DNS so‘rov yuborayotgan IP-larni topadi.**  
 
 🔹 **Dark Web yoki shubhali saytlar bilan bog‘langan IP-larni topish:**  
-```spl
+
 index=network dest_ip="*.onion" OR dest_ip="*.tor" | stats count by src_ip
-```
+
 📌 **Dark Web yoki TOR tarmoqlariga ulanayotgan kompyuterlarni aniqlaydi.**  
 
----
+
 
 ## **📍 8. Eng Ko‘p Qidirilgan Real-Time Monitoring Buyruqlari**  
 🔹 **Tizimda administrator huquqlari bilan kirishlar:**  
-```spl
+
 index=* EventCode=4624 user="admin" OR user="Administrator" | stats count by user, src_ip
-```
+
 📌 **Administrator huquqlari bilan tizimga kirgan foydalanuvchilarni topadi.**  
 
 🔹 **So‘nggi 5 daqiqada qilingan barcha harakatlar:**  
-```spl
+
 index=* earliest=-5m latest=now
-```
+
 📌 **Oxirgi 5 daqiqadagi barcha loglarni chiqaradi.**  
 
 ---
 
-## **✅ Xulosa va Qo‘shimcha Yordam**
-✔️ **Insider Threat**, **MITRE ATT&CK hujumlarini aniqlash**, **DNS tunneling**, **Mimikatz va credential dumping** hujumlarini kuzatish.  
-✔️ **Ransomware**, **malware**, **data exfiltration**, **PowerShell exploitation** kabi tahdidlarga qarshi qidiruv buyruqlari.  
-✔️ **Phishing**, **Dark Web monitoring**, **Zero-Day exploitlar** uchun Splunk qidiruvlarini qo‘llash.  
+📌 3. VirusTotal yoki Yara bilan Integratsiya Qilish
+Zararli dastur hashlarini VirusTotal API yoki Yara qoidalari bilan tekshirish mumkin.
 
-🚀 **Sizga yana qanday xavfsizlik tahlillari yoki Splunk qidiruvlari kerak? 😊**
+🔹 VirusTotal API orqali hashni tekshirish:
+
+| rest uri="https://www.virustotal.com/api/v3/files/{HASH_VALUE}" | table data.attributes.last_analysis_stats
+📌 VirusTotal bazasidan zararli hashlar bo‘yicha ma’lumot olish.
+✔️ **Ransomware**, **malware**, **data exfiltration**, **PowerShell exploitation** kabi tahdidlarga qarshi qidiruv buyruqlari.  
+
+
+🔹 Muayyan zararli dasturlarni hash bo‘yicha qidirish (MD5 yoki SHA256 orqali):
+
+index=sysmon EventCode=1 Hashes="*d41d8cd98f00b204e9800998ecf8427e*"
