@@ -129,3 +129,4 @@ volatility -f memory.dmp printkey -K "Software\Microsoft\Windows\CurrentVersion\
 ✔ **Malware va hujum tahlil qilish uchun juda foydali**  
 
 Agar **Volatility yordamida aniqroq tahlillar yoki amaliy misollar kerak bo‘lsa**, bemalol so‘rashingiz mumkin! 🚀
+https://medium.com/@i227446/dumpme-blue-team-ctf-memory-forensics-writeup-cyber-defenders-cf4fb09187ec
