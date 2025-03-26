@@ -301,23 +301,17 @@ index=sysmon EventCode=1 Hashes="*d41d8cd98f00b204e9800998ecf8427e*"
 Agar Sysmon yoki Linux audit loglari o‘rnatilgan bo‘lsa, hash qiymatlarini Splunk orqali topish mumkin.
 
 Windows (Sysmon) orqali MD5 hashni qidirish:
-spl
-Copy
-Edit
+
 index=sysmon EventCode=1 | table Image, Hashes | search Hashes="MD5=*"
 📌 Bu buyruq barcha ishlatilgan executable fayllarning MD5 hashlarini chiqaradi.
 
 Agar fayl nomi yoki yo‘li ma’lum bo‘lsa, aniqroq qidiruv:
 
-spl
-Copy
-Edit
+
 index=sysmon EventCode=1 Image="C:\\Users\\Public\\malware.exe" | table Image, Hashes
 📌 Ma’lum fayl uchun hash qiymatini chiqaradi.
 
 Linux tizimida MD5 hashni olish (auditd loglari):
-spl
-Copy
-Edit
+
 index=linux_logs "audit.log" | search execve="*/mnt/data/executable*" | table file_path, md5_hash
 📌 Tizimda ishlatilgan yoki yuklangan executable fayllarning MD5 hashini ko‘rsatadi.
