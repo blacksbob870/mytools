@@ -315,3 +315,53 @@ Linux tizimida MD5 hashni olish (auditd loglari):
 
 index=linux_logs "audit.log" | search execve="*/mnt/data/executable*" | table file_path, md5_hash
 📌 Tizimda ishlatilgan yoki yuklangan executable fayllarning MD5 hashini ko‘rsatadi.
+
+
+Ushbu Splunk so‘rovi **HTTP POST so‘rovlarida uzatilayotgan foydalanuvchi nomi va parollarni ajratib olish uchun ishlatilmoqda**.  
+
+---
+
+### **🔍 Tahlil va So‘rov Tavsifi**  
+1. **index=botsv1 ireallynotbatman.com**  
+   → **"botsv1" indeksidan** ma'lumotlarni qidiradi, **ireallynotbatman.com saytiga oid loglarni olib keladi.**  
+
+2. **sourcetype="stream:http"**  
+   → **Tarmoqdagi HTTP trafiki (packet capture) loglarini qidirish uchun "stream:http" manba turidan foydalanmoqda.**  
+
+3. **http_method="POST"**  
+   → **Foydalanuvchi ma'lumotlarini jo‘natish uchun ishlatiladigan HTTP POST so‘rovlarini filtrlaydi.**  
+
+4. **rex field=form_data "username=(?\<user\>\w+)"**  
+   → **"form_data" maydonidan "username" ni chiqarib oladi va uni "user" deb nomlaydi.**  
+
+5. **rex field=form_data "passwd=(?\<pw\>\w+)"**  
+   → **"form_data" maydonidan "passwd" (parol) ni chiqarib oladi va uni "pw" deb nomlaydi.**  
+
+6. **table _time, user, pw**  
+   → **Natijalarni jadval shaklida vaqt, foydalanuvchi nomi va parol bilan chiqaradi.**  
+
+7. **sort by _time**  
+   → **Natijalarni vaqt bo‘yicha tartiblaydi (oxirgi so‘rovlar oldin yoki keyin chiqishi mumkin).**  
+
+---
+
+### **📌 Ushbu so‘rov qanday ishlaydi?**
+✅ **MITM (Man-in-the-Middle) yoki credential harvesting hujumlarini aniqlash**  
+✅ **Foydalanuvchi nomi va parollarni ochiq holda jo‘natayotgan tizimlarni tekshirish**  
+✅ **HTTP orqali uzatilayotgan maxfiy ma'lumotlarni (plain-text credentials) aniqlash**  
+
+---
+
+### **📌 Xavfsizlik bo‘yicha tavsiyalar**
+🔹 **Ochiq holda uzatilayotgan credentiallarni HTTPS orqali jo‘natish kerak**  
+🔹 **Foydalanuvchilar shaxsiy ma’lumotlarini o‘g‘irlanishini oldini olish uchun SSL/TLS ishlatish muhim**  
+🔹 **Splunk orqali real-time monitoring va alert yaratish mumkin:**  
+```spl
+index=botsv1 sourcetype="stream:http" http_method="POST"
+| regex form_data="(username=.*&passwd=.*)"
+| stats count by user
+| where count > 10
+```
+📌 **Bu so‘rov bir foydalanuvchi 10 martadan ko‘p login qilgan hollarda alert berishi mumkin (credential stuffing hujumlarini aniqlash uchun).**  
+
+Sizga yana qanday Splunk qidiruvlari yoki avtomatlashtirish kerak? 🚀
