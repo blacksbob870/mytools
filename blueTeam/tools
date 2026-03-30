@@ -1,0 +1,47 @@
+Blue Team:
+https://attack.mitre.org/
+cyber kill chain
+
+https://github.com/horsicq/Detect-It-Easy
+
+for C#: https://github.com/icsharpcode/ILSpy
+
+
+decompile and disassambler
+
+#for_dfir
+ftk imager (mostly using ctf)
+
+#memory_dump
+volatility.py 
+
+
+autopsy for analyzing with times(take more time)
+
+#for_windows_log
+find with event id
+ logon_types
+
+timesketch for log analysiz
+https://github.com/google/timesketch
+
+
+log analysis
+posts, ip_soni, user-agent
+log analysis elastik_search
+
+#pcap_analysis zeek
+
+#.exe virus exploring
+coff explorer
+pe studio
+
+ida pro
+
+windows registr analysis
+
+
+
+https://urlscan.io/
+
+https://ericzimmerman.github.io/#!index.md
